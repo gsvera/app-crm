@@ -1,0 +1,150 @@
+.login-img{
+    background-image: url(/img/estrategia-digital-crm.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 1rem 0 0 1rem;
+    
+}
+.back-modules{
+    background-image: url(/img/fondo-claro.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;   
+    width: 100%;
+}
+.back-card{
+    background-color: rgba(150, 155, 156, 0.6);
+}
+.img-modulo{
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin: 0 auto 10px;
+}
+.menu-left{
+    min-height: 89.6vh;
+    background-color: #005FAE;
+}
+.element-menu-home{
+    width: 100%;
+    height: 45px;
+    padding-top: 10px;
+}
+.element-menu{
+    width: 100%;
+    height: 45px;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+}
+.element-menu:hover, .element-menu-home:hover{
+    background-color: rgb(100, 100, 100);
+}
+.item-menu{
+    font-weight: 400;
+    color: white;
+    font-size: 1.1em;
+}
+.item-menu:hover{
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+.list-none{
+    list-style: none;
+}
+.card-status{
+    border-radius: 5px;
+    box-shadow: 1px 0 2px 2px rgba(150, 155, 156, 0.6);
+}
+.line-color-custom{
+    width: 53%;
+    height: 8px;
+    border-radius: 3px;
+}
+.dropdown-item{
+    cursor: pointer;
+}
+.card-folio{
+    border-radius: 5px;
+    margin: 15px;
+    background-color: white;
+    box-shadow: 0 0 3px 1px rgba(52, 58, 64, 0.6);
+}
+.card-header-folio{
+    border-radius: 5px;
+    padding: 10px 15px;
+    background-color: #343a40;
+    color: white;
+}
+.color-select{
+    width: 100%;
+    height: 25px;
+    border-radius: 5px;
+}
+
+
+
+
+
+/* CHECKBOX SWITCH */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  
