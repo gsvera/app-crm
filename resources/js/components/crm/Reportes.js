@@ -6,7 +6,7 @@ class Reportes extends React.Component{
     }
     render(){
         return(
-            <h1>Reportes</h1>
+            <h3 className='mt-3'>Reportes</h3>
         )
     }
 }

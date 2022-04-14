@@ -173,7 +173,7 @@ class EstatusTarea extends React.Component{
     render(){
         return(
             <>
-                <h1>Catálogo de estatus tareas</h1>
+                <h3 className='mt-3'>Catálogo de estatus tareas</h3>
                 <div className="d-flex justify-content-end m-2">
                     <div className="col-3">
                         <button className="btn btn-success" type="button" data-toggle="modal" data-target="#newStatus">
@@ -185,7 +185,7 @@ class EstatusTarea extends React.Component{
                     <div className="modal-dialog modal-lg" role="document">
                         <form className='modal-content'>
                             <div className='modal-header'>
-                                <h2>{this.state.modalTitle}</h2>
+                                <h5>{this.state.modalTitle}</h5>
                             </div>
                             <div className='modal-body'>
                                 <div className='d-flex'>

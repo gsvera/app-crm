@@ -162,7 +162,7 @@ class TipoProducto extends React.Component{
     render(){
         return(
             <>
-                <h1>Catálogo de tipo de producto</h1>
+                <h3 className='mt-3'>Catálogo de tipo de producto</h3>
                 <div className="d-flex justify-content-end m-2">
                     <div className="col-3">
                         <button className="btn btn-success" type="button" data-toggle="modal" data-target="#newType">
@@ -174,7 +174,7 @@ class TipoProducto extends React.Component{
                     <div className="modal-dialog modal-md" role="document">
                         <form className='modal-content'>
                             <div className='modal-header'>
-                                <h2>{this.state.modalTitle}</h2>
+                                <h5>{this.state.modalTitle}</h5>
                             </div>
                             <div className='modal-body'>
                                 <div className='d-flex'>

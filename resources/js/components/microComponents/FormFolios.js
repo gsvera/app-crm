@@ -82,9 +82,9 @@ class FormFolios extends React.Component{
                 <div className='card-folio'>
                     <div className='card-header-folio'>
                         <p>{this.state.subModulo}</p>
-                        <h2 className='text-center'>
+                        <h5 className='text-center'>
                             <b>{this.state.labelFolio}</b>
-                        </h2>
+                        </h5>
                     </div>
                     <div className='card-body'>
                         <div className='form-group text-center'>

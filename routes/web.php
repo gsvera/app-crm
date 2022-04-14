@@ -33,30 +33,43 @@ Route::group(['middleware' => 'authUser'], function(){
 });
 
 Route::group(['prefix' => 'funct', 'middleware' => 'authUser'], function(){
+    // FUNCTION OF COMPONENT USER
     Route::get('nameUser', [UsuarioController::class, 'nameUser']);
+    Route::get('getEmployeesActive', [UsuarioController::class, 'getEmployeesActive']);
+
+    //FUNCTION OF COMPONEN MODULES
     Route::get('modules', [ModulesController::class, 'getModules']);
 
+    // FUNCTIONS TO COMPONENT OF STATUS CLIENT
     Route::post('newStatusClient', [StatusClientController::class, 'newStatus']);
     Route::post('updateStatusClient', [StatusClientController::class, 'updateStatus']);
     Route::post('deleteStatusClient', [StatusclientController::class, 'deleteStatus']);
     Route::get('getStatusClient', [StatusClientController::class, 'getStatusClient']);
 
+    //FUNCTIONS TO COMPONENT OF STATUS TASK
     Route::post('newStatusTask', [StatusTaskController::class, 'newStatus']);
     Route::get('getStatusTask', [StatusTaskController::class, 'getStatusTask']);
     Route::post('updateStatusTask', [StatusTaskController::class, 'updateStatus']);
     Route::post('deleteStatusTask', [StatusTaskController::class, 'deleteStatus']);
 
+    //FUNCTION TO COMPONENT OF TYPE PRODUCT
     Route::post('newTypeProduct', [TypeProductController::class, 'newTypeProduct']);
     Route::get('getTypeProduct', [TypeProductController::class, 'getStatus']);
     Route::post('updateTypeProduct', [TypeProductController::class, 'updateTypeProduct']);
     Route::post('deleteTypeProduct', [TypeProductController::class, 'deleteTypeProduct']);
 
+    //FUNCTIONS TO COMPONENT OF FOLIOS
     Route::get('getFolios', [FolioController::class, 'getFolios']);
     Route::post('updateFolio', [FolioController::class, 'updateFolio']);
 
+    //FUNCTION TO COMPONENT OF CLIENTS
     Route::post('newClient', [ClientController::class, 'newClient']);
     Route::get('getClients', [ClientController::class, 'getClients']);
+    Route::get('getClientsActive', [ClientController::class, 'getClientsActive']);
     Route::post('disableClient', [ClientController::class, 'disableClient']);
     Route::post('updateClient', [ClientController::class, 'updateClient']);
     Route::post('deleteClient', [ClientController::class, 'deleteClient']);
+    Route::get('clientById', [ClientController::class, 'clientById']);
+    Route::post('saveFollowClient', [ClientController::class, 'saveFollowClient']);
+    Route::get('getFollowDetailByClient', [ClientController::class, 'getFollowDetailByClient']);
 });

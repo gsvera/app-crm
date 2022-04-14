@@ -16,7 +16,7 @@
     <div id="menuPrincipal"></div>
     <div class="d-flex">
         <div id="menuCrm" class="col-12 col-md-3 col-xl-2 menu-left" style="padding:0;"></div>
-        <div id="content" class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content"></div>
+        <div id="content" class="col-12 col-md-9 col-xl-10 bd-content"></div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/alerts.js') }}"></script>

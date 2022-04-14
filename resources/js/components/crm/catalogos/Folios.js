@@ -42,7 +42,7 @@ class Folios extends React.Component{
     render(){
         return(
             <>
-                <h1>Catálogo de folios</h1>
+                <h3 className="mt-3">Catálogo de folios</h3>
                 
                 <div className="row">
                     {this.state.listFolios.map(item => 

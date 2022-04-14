@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '../microComponents/Button'
 import CheckSwitch from '../microComponents/CheckSwitch'
-//import ButtonDelete from './../../microComponents/ButtonDelete'
+import RowContactInput from '../microComponents/RowContactInput'
 
 class Clientes extends React.Component{
     constructor(props){
@@ -12,20 +12,16 @@ class Clientes extends React.Component{
             textButton: "Guardar",
             firstName:"",
             lastName:"",
-            email:"",
-            phoneNumber:"",
-            whatsappNumber:"",
             birthDay:"",
             adress:"",
             id_client:0,
             listClient:[],
-            arrClients:[]
+            arrClients:[],
+            detailContact:[],
+            countRow:0
         }
         this.handleFirstName = this.handleFirstName.bind(this)
         this.handleLastName = this.handleLastName.bind(this)
-        this.handleEamil = this.handleEamil.bind(this)
-        this.handlePhoneNumber = this.handlePhoneNumber.bind(this)
-        this.handleWhatsappNumber = this.handleWhatsappNumber.bind(this)
         this.handleBirthDay = this.handleBirthDay.bind(this)
         this.handleAdress = this.handleAdress.bind(this)
         this.cleanInputs = this.cleanInputs.bind(this)
@@ -35,6 +31,8 @@ class Clientes extends React.Component{
         this.selectClient = this.selectClient.bind(this)
         this.deleteClient = this.deleteClient.bind(this)
         this.search = this.search.bind(this)
+        this.addRowContact = this.addRowContact.bind(this)
+        this.deleteRow = this.deleteRow.bind(this)
     }
     componentDidMount()
     {
@@ -47,18 +45,6 @@ class Clientes extends React.Component{
     handleLastName(e)
     {
         this.setState({lastName:e.target.value})
-    }
-    handleEamil(e)
-    {
-        this.setState({email:e.target.value})
-    }
-    handlePhoneNumber(e)
-    {
-        this.setState({phoneNumber:e.target.value})
-    }
-    handleWhatsappNumber(e)
-    {
-        this.setState({whatsappNumber:e.target.value})
     }
     handleBirthDay(e)
     {
@@ -77,9 +63,6 @@ class Clientes extends React.Component{
             textButton: "Guardar",
             firstName:"",
             lastName:"",
-            email:"",
-            phoneNumber:"",
-            whatsappNumber:"",
             birthDay:"",
             adress:""
         })
@@ -106,35 +89,42 @@ class Clientes extends React.Component{
             $("#errorLastName").addClass('d-none')
         }
 
-        if(!regexEmail.test(this.state.email))
-        {
-            $("#errorEmail").removeClass('d-none')
-            return false
-        }
-        else
-        {
-            $("#errorEmail").addClass('d-none')
-        }
+        let tableContact = document.getElementById('body-table'),
+        detailContact = []
 
-        if(this.state.phoneNumber == "")
+        for(let i = 0; i < tableContact.rows.length; i++)
         {
-            $("#errorPhone").removeClass('d-none')
-            return false
-        }
-        else
-        {
-            $("#errorPhone").addClass('d-none')
+            let formContact = tableContact.rows[i].querySelector('.formContact').value,
+            dataContact = tableContact.rows[i].querySelector('.dataContact').value,
+            nameContact = tableContact.rows[i].querySelector('.nameContact').value
+
+            if(formContact == 'email')
+            {
+                if(!regexEmail.test(dataContact))
+                {
+                    warningAlert("Advertencia.", "Ingrese un correo valido en metodo de contacto Email")
+                    return false
+                }
+            }
+            if(nameContact == "")
+            {
+                warningAlert("Advertencia.", "El nombre de contacto no puede estar vacio")
+            }
+            if(dataContact == "")
+            {
+                warningAlert("Advertencia.", "El dato de contacto no puede estar vacio")
+            }
+
+            detailContact.push({form_contact: formContact, name_contact: nameContact, data_contact: dataContact})
         }
 
         let register = {
             first_name: this.state.firstName,
             last_name: this.state.lastName,
-            email: this.state.email,
-            phone_number: this.state.phoneNumber,
-            whatsapp_number: this.state.whatsappNumber,
             birth_day: this.state.birthDay,
             adress: this.state.adress,
-            id_client: this.state.id_client
+            id_client: this.state.id_client,
+            detailContact: detailContact
         }
 
         let url = this.state.id_client == 0 ?'/funct/newClient':'/funct/updateClient'
@@ -148,12 +138,12 @@ class Clientes extends React.Component{
         })
         .then(res => res.json())
         .then(resp => {
-            console.log(resp)
             closeAlert()
             if(resp.error == false)
             {
                 this.cleanInputs()
                 this.getClients(false)
+                this.setState({detailContact:[]})
                 setTimeout(function(){
                     successAlert("Hecho", resp.message)
                 },100)
@@ -192,12 +182,10 @@ class Clientes extends React.Component{
             textButton: "Actualizar",
             firstName:client[0].first_name,
             lastName:client[0].last_name,
-            email:client[0].email,
-            phoneNumber:client[0].phone_number,
-            whatsappNumber:client[0].whatsapp_number==0?"":client[0].whatsapp_number,
             birthDay:client[0].birth_day==null?"":client[0].birth_day,
             adress:client[0].adress==null?"":client[0].adress,
-            id_client:idClient
+            id_client:idClient,
+            detailContact:client[0]._detail_contact
         })
 
         $("#newClient").modal('show')
@@ -245,7 +233,6 @@ class Clientes extends React.Component{
                 .then(res => res.json())
                 .then(result => {
                     closeAlert()
-                    console.log(result)
                     if(result.error == false)
                     {
                         this.getClients(false)
@@ -266,15 +253,32 @@ class Clientes extends React.Component{
         let filterList = this.state.arrClients.filter(
             item => item.first_name.toUpperCase().match(e.target.value.toUpperCase()) 
             || item.last_name.toUpperCase().match(e.target.value.toUpperCase())
-            || item.email.toUpperCase().match(e.target.value.toUpperCase())
         )
 
         this.setState({listClient: filterList})
     }
+    addRowContact(e)
+    {
+        e.preventDefault()
+        
+        let newRow = this.state.detailContact
+        let m = this.state.detailContact.map(item => item.id_detail)
+        let newCount = Math.max(...m) + 1
+
+        newRow.push({id_detail: newCount, form_contact:"", name_contact:"", data_contact:""})
+        this.setState({detailContact:newRow, countRow:newCount})
+    }
+    deleteRow(e, idRow)
+    {
+        e.preventDefault()
+
+        let filterRow = this.state.detailContact.filter(item => item.id_detail != idRow)
+        this.setState({detailContact:filterRow})
+    }
     render(){
         return(
             <>
-                <h1>Clientes</h1>
+                <h3 className='mt-3'>Clientes</h3>
                 <div className="d-flex justify-content-end m-2">
                     <div className="input-group mb-3 col-3">
                         <div className="input-group-prepend">
@@ -306,26 +310,43 @@ class Clientes extends React.Component{
                                     <span className='d-none text-danger' id="errorLastName">Campo obligatorio</span>
                                 </div>
                                 <div className='form-group col-md-6'>
-                                    <label className='text-primary font-weight-bold'>Email <span className='text-danger'>*</span></label>
-                                    <input type="text" className='form-control' value={this.state.email} onChange={this.handleEamil}/>
-                                    <span className='d-none text-danger' id="errorEmail">Formato de email incorrecto!!</span>
-                                </div>
-                                <div className='form-group col-md-6'>
-                                    <label className='text-primary font-weight-bold'>Teléfono <span className='text-danger'>*</span></label>
-                                    <input type="text" className='form-control' value={this.state.phoneNumber} onChange={this.handlePhoneNumber}/>
-                                    <span className='d-none text-danger' id="errorPhone">Campo obligatorio</span>
-                                </div>
-                                <div className='form-group col-md-6'>
-                                    <label className='text-primary font-weight-bold'>WhatsApp</label>
-                                    <input type="text" className='form-control' value={this.state.whatsappNumber} onChange={this.handleWhatsappNumber}/>
-                                </div>
-                                <div className='form-group col-md-6'>
-                                    <label className='text-primary font-weight-bold'>Cumple años</label>
+                                    <label className='text-primary font-weight-bold'>Cumpleaños</label>
                                     <input type="date" className='form-control' value={this.state.birthDay} onChange={this.handleBirthDay}/>
                                 </div>
                                 <div className='form-group col-md-12'>
                                     <label className='text-primary font-weight-bold'>Dirección</label>
                                     <input type="text" className='form-control' value={this.state.adress} onChange={this.handleAdress}/>
+                                </div>
+                                <div className='col'>
+                                    <p className='text-center font-wieght-bold f-size-12'>Detalle de contacto</p>
+                                    <button onClick={this.addRowContact} className='btn btn-info mb-3' style={{float:"left",marginTop:"-15px"}}><i className="fa fa-address-book" aria-hidden="true"></i> Nuevo contacto</button>
+                                    <table className='table'>
+                                        <thead>
+                                            <tr>
+                                                <th className='text-center' scope="col">Forma de contacto</th>
+                                                <th className='text-center' scope="col">Nombre contacto</th>
+                                                <th className='text-center' scope="col">Numero / Email</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="body-table">
+                                            {this.state.detailContact.map(item => 
+                                                <RowContactInput key={item.id_detail} formContact={item.form_contact} nameContact={item.name_contact} dataContact={item.data_contact} action={(event) => this.deleteRow(event, item.id_detail)}/>
+                                                // <tr key={item.position}>
+                                                //     <td>
+                                                //         <select className='form-control formContact' value={}>
+                                                //             <option value="whatsapp">WhatsApp</option>
+                                                //             <option value="phone">Teléfono</option>
+                                                //             <option value="email">Email</option>
+                                                //         </select>
+                                                //     </td>
+                                                //     <td><input className='form-control nameContact' type="text" /></td>
+                                                //     <td><input className='form-control dataContact' type="text" /></td>
+                                                //     <td><button onClick={(event) => this.deleteRow(event, item.position)} className="btn btn-danger"><i className="fa fa-trash" aria-hidden="true"></i></button></td>
+                                                // </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div className='modal-footer'>
@@ -341,7 +362,6 @@ class Clientes extends React.Component{
                             <tr>
                                 <th className='text-center' scope="col">Numero cliente</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Email</th>
                                 <th scope="col">Activar</th>
                                 <th scope='col'>Acciones</th>
                             </tr>
@@ -349,9 +369,8 @@ class Clientes extends React.Component{
                         <tbody>
                             {this.state.listClient.map((item) => 
                                 <tr key={item.id_client}>
-                                    <td className='text-center font-weight-bold'>{item.id_client}</td>
+                                    <td className='text-center font-weight-bold'>{item.folio_client}</td>
                                     <td className='font-weight-bold'>{item.first_name} {item.last_name}</td>
-                                    <td className='font-weight-bold'>{item.email}</td>
                                     <td>
                                         <CheckSwitch idClient={item.id_client} active={item.enabled} method={this.changeActive}/>
                                     </td>

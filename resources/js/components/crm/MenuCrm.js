@@ -7,6 +7,7 @@ import EstatusCliente from "./catalogos/EstatusCliente"
 import EstatusTarea from "./catalogos/EstatusTarea"
 import Folios from "./catalogos/Folios"
 import TipoProducto from "./catalogos/TipoProducto"
+import Tareas from "./Tareas"
 
 class MenuCrm extends React.Component{
     constructor(props){
@@ -47,6 +48,11 @@ class MenuCrm extends React.Component{
             ReactDOM.render(<TipoProducto />, document.getElementById('content'))
         }
     }
+    viewTareas(){
+        if(document.getElementById('content')){
+            ReactDOM.render(<Tareas />, document.getElementById('content'))
+        }
+    }
     render(){
         return(
             <nav className="pt-3">
@@ -66,7 +72,7 @@ class MenuCrm extends React.Component{
                     </a>
                 </div>
                 <div className="element-menu">
-                    <a className="item-menu" >
+                    <a className="item-menu" onClick={this.viewTareas}>
                         <i className="fa fa-pencil-square-o" aria-hidden="true"></i>  Tareas
                     </a>
                 </div>
